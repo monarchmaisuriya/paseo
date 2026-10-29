@@ -41,7 +41,8 @@ mise install        # java 21 + android-sdk 21.0 command-line tools
 
 ```bash
 sdkmanager --licenses
-sdkmanager "platform-tools" "emulator" "platforms;android-35" "build-tools;35.0.0" \
+sdkmanager "platform-tools" "emulator" "platforms;android-36" "build-tools;36.0.0" \
+           "ndk;27.1.12297006" "cmake;3.22.1" \
            "system-images;android-35;google_apis;arm64-v8a"
 avdmanager create avd -n paseo -k "system-images;android-35;google_apis;arm64-v8a" -d pixel_7
 emulator @paseo     # start it; leave running
@@ -51,13 +52,14 @@ On an Intel Mac, use the `x86_64` system image:
 
 ```bash
 sdkmanager --licenses
-sdkmanager "platform-tools" "emulator" "platforms;android-35" "build-tools;35.0.0" \
+sdkmanager "platform-tools" "emulator" "platforms;android-36" "build-tools;36.0.0" \
+           "ndk;27.1.12297006" "cmake;3.22.1" \
            "system-images;android-35;google_apis;x86_64"
 avdmanager create avd -n paseo -k "system-images;android-35;google_apis;x86_64" -d pixel_7
 emulator @paseo     # start it; leave running
 ```
 
-Gradle auto-fetches the platform/build-tools it needs once licenses are accepted, so adjust `android-35` only if it asks for a different level.
+The platform, build-tools and NDK versions are the ones React Native builds with (`compileSdk`, `buildTools` and `ndkVersion` in `node_modules/react-native/gradle/libs.versions.toml`); bump them here when a React Native upgrade changes that file. The NDK and CMake compile the native modules. Once licenses are accepted, Gradle installs anything else it asks for (such as `build-tools;35.0.0`) during the first build.
 
 ## Local build + install
 
